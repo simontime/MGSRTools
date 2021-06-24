@@ -21,12 +21,12 @@ size_t fsize(FILE *f)
 
 int main(int argc, char **argv)
 {
-    char         filename[FILENAME_MAX];
-    FILE        *f_in, *f_out;
-    uint8_t     *buf, *buf_start, *search_end;
-    uint8_t      key[0x10];
-    uint32_t     bfstm_size, i, num;
-    size_t       total_size;
+    char     filename[FILENAME_MAX];
+    FILE    *f_in, *f_out;
+    uint8_t *buf, *buf_start, *search_end;
+    uint8_t  key[0x10];
+    uint32_t bfstm_size, i, num;
+    size_t   total_size;
     
     // attempt to open 42
     if ((f_in = fopen("42", "rb")) == NULL)
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
             // generate filename
             sprintf(filename, "%03d.bfstm", num++);
             
-            //
+            // open file
             f_out = fopen(filename, "wb");
             
             // extract key bytes from known plaintext
@@ -89,6 +89,7 @@ int main(int argc, char **argv)
             
             putchar('\n');
             
+            // decrypt by xoring the byte with the key byte and reversing the bits
             for (i = 0; i < bfstm_size; i++)
                 *buf++ = REVERSE_BYTE(*buf ^ key[i % sizeof(key)]);
             
